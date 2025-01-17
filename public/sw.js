@@ -7,11 +7,21 @@ self.addEventListener('push', (event) => {
 
     const title = payload.title || "Default Title";
     const options = {
-      body: payload.body || "Default Body",
-      icon: payload.icon || '/logo192.png',
+        body: payload.body || "Default Body",
+        icon: payload.icon || '/logo192.png',
     };
 
+    // Display notification
     event.waitUntil(
-        this.registration.showNotification(title, options)
+        self.registration.showNotification(title, options).catch((err) => {
+            console.error("Notification failed to show:", err);
+        })
     );
+});
+
+// Optional: Handle notification click
+self.addEventListener('notificationclick', (event) => {
+    console.log('Notification clicked:', event);
+    event.notification.close();
+    // Add any logic here to handle the notification click, like opening a URL
 });
