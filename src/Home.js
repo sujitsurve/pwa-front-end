@@ -20,8 +20,6 @@ export default function Home() {
       return;
     }
 
-    setNotificationStatus('loading'); // Set loading status
-
     try {
       const response = await fetch('https://pwa-demo-gku9.onrender.com/send-push', {
         method: 'POST',
@@ -101,19 +99,20 @@ export default function Home() {
                 </button>
               </div>
 
-              {notificationStatus && (
-                <div
-                  className={`mt-3 text-center alert ${
-                    notificationStatus === 'success' ? 'alert-success' : 'alert-danger'
+              notificationStatus && (
+              <div
+                className={`mt-3 text-center alert ${notificationStatus === 'success' ? 'alert-success' :
+                    notificationStatus === 'loading' ? 'alert-info' : 'alert-danger'
                   }`}
-                  role="alert"
-                >
-                  {notificationStatus === 'success'
-                    ? 'Push Notification Sent Successfully!' :
-                    notificationStatus === 'success' ? 'Sending Push Notification'
-                    : 'Error sending Push Notification'}
-                </div>
-              )}
+                role="alert"
+              >
+                {notificationStatus === 'success'
+                  ? 'Push Notification Sent Successfully!' :
+                  notificationStatus === 'loading' ? 'Sending Push Notification...' :
+                    'Error sending Push Notification'}
+              </div>
+              )
+
             </div>
           </div>
         </div>
