@@ -3,23 +3,26 @@ import './App.css';
 import { Navbar, Nav } from 'react-bootstrap';
 import Home from './Home';
 import About from './About';
+import qualysLogo from './qualys-logo.png';
+
 import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <Navbar className="Nav-color" variant="dark">
-          <Navbar.Brand href="#home">Qualys</Navbar.Brand>
-          <Nav className="mr-auto">
+        <Navbar className="navbar-white navbar-shadow" variant="light">
+          <Navbar.Brand href="#home">
+            {/* Add the Qualys icon here */}
+            <img src={qualysLogo} alt="Qualys Icon" style={{ width: '104px', margin: '20px'}} />
+          </Navbar.Brand>
+          {/* <Nav className="mr-auto">
             <Nav.Link><Link to="/">Home</Link></Nav.Link>
             <Nav.Link><Link to="/about">About</Link></Nav.Link>
-            <Nav.Link><Link to="/users">Users</Link></Nav.Link>
-          </Nav>
+          </Nav> */}
         </Navbar>
 
         <Routes>
-          {/* Replace `component` with `element` and wrap the component in JSX */}
           <Route path="/about" element={<About />} />
           <Route path="/" element={<Home />} />
         </Routes>
