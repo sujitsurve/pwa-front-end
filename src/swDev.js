@@ -87,17 +87,14 @@ export default function swDev() {
     }
   }
 
-  // Wait for user interaction on iOS or browsers where APIs need it
-  document.addEventListener(
-    "click",
-    () => {
-      if ("Notification" in window && "serviceWorker" in navigator) {
-        checkPermission();
-        showAddToHomeScreenPrompt();
-      } else {
-        console.log("Notifications or Service Workers are not supported in this browser.");
-      }
-    },
-    { once: true } // Trigger only once after user interaction
-  );
+  // Run on page load (without waiting for user click)
+  window.addEventListener("load", () => {
+    if ("Notification" in window && "serviceWorker" in navigator) {
+      checkPermission();
+    } else {
+      console.log("Notifications or Service Workers are not supported in this browser.");
+    }
+
+    showAddToHomeScreenPrompt(); // Show prompt on page load if conditions are met
+  });
 }
