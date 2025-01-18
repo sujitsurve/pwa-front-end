@@ -19,7 +19,7 @@ export default function Home() {
       alert('Please enter a message!');
       return;
     }
-
+    setNotificationStatus('loading'); // Set loading status
     try {
       const response = await fetch('https://pwa-demo-gku9.onrender.com/send-push', {
         method: 'POST',
