@@ -6,20 +6,30 @@
   height: 40vmin;
   pointer-events: none;
 }
-.navbar a{
-  color: #fff;
+
+.navbar {
+  background-color: white !important; /* White background for the navbar */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow below the navbar */
 }
-.navbar a:hover{
-  color: #ddd;
+
+.navbar a {
+  color: #343a40; /* Dark color for links */
+  text-decoration: none; /* Remove underline */
 }
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+.navbar a:hover {
+  color: #007bff; /* Blue color on hover */
+}
+
+.Navbar-white .navbar-nav .nav-link {
+  color: #343a40 !important; /* Dark text for links */
+}
+
+.Navbar-white .navbar-nav .nav-link:hover {
+  color: #007bff !important; /* Blue color when hovering over links */
 }
 
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -29,26 +39,13 @@
   color: white;
 }
 
-.Nav-color{
-  background-color: #075096;
-}
-
 .App-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 input:focus {
-  border-color: #007bff !important; /* Make the border blue when focused */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important; /* Highlight with a subtle shadow */
+  border-color: #007bff !important; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important; /* Subtle highlight shadow */
 }
 
 input {
