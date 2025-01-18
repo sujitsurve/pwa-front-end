@@ -1,7 +1,6 @@
 // Push Notification Event
 self.addEventListener('push', (event) => {
     console.log("Push event received:", event);
-     alert("Push event received:");
     let payload = event.data ? event.data.json() : {};
     console.log("Notification Payload:", payload);
 
@@ -15,7 +14,6 @@ self.addEventListener('push', (event) => {
     event.waitUntil(
         self.registration.showNotification(title, options).catch((err) => {
             console.error("Notification failed to show:", err);
-             alert("Notification failed to show:");
         })
     );
 });
