@@ -99,19 +99,19 @@ export default function Home() {
                 </button>
               </div>
 
-              notificationStatus && (
-              <div
-                className={`mt-3 text-center alert ${notificationStatus === 'success' ? 'alert-success' :
+              {notificationStatus && (
+                <div
+                  className={`mt-3 text-center alert ${notificationStatus === 'success' ? 'alert-success' :
                     notificationStatus === 'loading' ? 'alert-info' : 'alert-danger'
-                  }`}
-                role="alert"
-              >
-                {notificationStatus === 'success'
-                  ? 'Push Notification Sent Successfully!' :
-                  notificationStatus === 'loading' ? 'Sending Push Notification...' :
-                    'Error sending Push Notification'}
-              </div>
-              )
+                    }`}
+                  role="alert"
+                >
+                  {notificationStatus === 'success'
+                    ? 'Push Notification Sent Successfully!' :
+                    notificationStatus === 'loading' ? 'Sending Push Notification...' :
+                      'Error sending Push Notification'}
+                </div>
+              )}
 
             </div>
           </div>
