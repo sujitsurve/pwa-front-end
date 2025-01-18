@@ -66,12 +66,34 @@ export default function swDev() {
     }
   }
 
+  // Show prompt to add to home screen for iOS users
+  function showAddToHomeScreenPrompt() {
+    const isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isInStandaloneMode = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+
+    if (isIos && !isInStandaloneMode) {
+      const iosPrompt = document.getElementById("ios-prompt");
+      if (iosPrompt) {
+        iosPrompt.style.display = "block";
+
+        // Add event listener to dismiss button
+        const dismissIosPrompt = document.getElementById("dismiss-ios-prompt");
+        if (dismissIosPrompt) {
+          dismissIosPrompt.addEventListener("click", () => {
+            iosPrompt.style.display = "none";
+          });
+        }
+      }
+    }
+  }
+
   // Wait for user interaction on iOS or browsers where APIs need it
   document.addEventListener(
     "click",
     () => {
       if ("Notification" in window && "serviceWorker" in navigator) {
         checkPermission();
+        showAddToHomeScreenPrompt();
       } else {
         console.log("Notifications or Service Workers are not supported in this browser.");
       }
