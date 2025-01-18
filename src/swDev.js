@@ -22,11 +22,9 @@ export default function swDev() {
         const permission = await Notification.requestPermission();
         if (permission === "granted") {
           console.log("Notification permission granted!");
-          alert("Notification permission granted!");
           // Register service worker
           const registration = await navigator.serviceWorker.register("/sw.js");
           console.log("Service Worker registered:", registration);
-          alert("Service Worker registered:", registration);
 
 
           // Subscribe to push notifications
@@ -35,7 +33,6 @@ export default function swDev() {
             applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
           });
           console.log("Push Subscription:", subscription);
-          alert("Push Subscription:", subscription);
 
           // Send subscription to the server
           return fetch("https://pwa-demo-gku9.onrender.com/subscribe", {
