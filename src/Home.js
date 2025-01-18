@@ -4,6 +4,7 @@ import './App.css'; // Add this for custom styles
 
 export default function Home() {
   const [message, setMessage] = useState('');
+  const [notificationStatus, setNotificationStatus] = useState(null);
 
   const sendPushNotification = async () => {
     if (!message) {
@@ -24,140 +25,71 @@ export default function Home() {
       });
 
       if (response.ok) {
-        const data = await response.json();
+        setNotificationStatus('success');
       } else {
-        alert('Failed to send push notification');
+        setNotificationStatus('error');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('An error occurred while sending the push notification');
+      setNotificationStatus('error');
     }
   };
 
   return (
     <div className="container mt-5">
-      <h1 className="mb-4">Home Component</h1>
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card shadow-lg border-light">
+            <div className="card-body">
+              {/* <h2 className="card-title text-center text-info mb-4">Push Notification Demo</h2> */}
+              <p className="card-text text-center text-muted mb-4">
+                Enter a message and send a push notification through this demo app.
+              </p>
 
-      <div className="mb-3">
-        <label htmlFor="notificationMessage" className="form-label">
-          Enter Notification Message
-        </label>
-        <input
-          type="text"
-          id="notificationMessage"
-          className="form-control"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
+              <div className="mb-3">
+                <label htmlFor="notificationMessage" className="form-label">
+                  Notification Message
+                </label>
+                <input
+                  type="text"
+                  id="notificationMessage"
+                  className="form-control"
+                  placeholder="Type your message here..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+              </div>
+
+              <div className="text-center">
+                <button
+                  className="btn btn-primary w-100"
+                  onClick={sendPushNotification}
+                  disabled={notificationStatus === 'loading'}
+                >
+                  {notificationStatus === 'loading' ? (
+                    <div className="spinner-border spinner-border-sm text-white" role="status"></div>
+                  ) : (
+                    'Send Notification'
+                  )}
+                </button>
+              </div>
+
+              {notificationStatus && (
+                <div
+                  className={`mt-3 text-center alert ${
+                    notificationStatus === 'success' ? 'alert-success' : 'alert-danger'
+                  }`}
+                  role="alert"
+                >
+                  {notificationStatus === 'success'
+                    ? 'Push Notification Sent Successfully!'
+                    : 'Error sending Push Notification'}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
-
-      <button className="btn btn-primary" onClick={sendPushNotification}>
-        Send Push Notification
-      </button>
     </div>
   );
 }
-
-
-// import React, { useState, useEffect } from 'react';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import './App.css'; // Add this for custom styles
-
-// export default function Home() {
-//   const [message, setMessage] = useState('');
-//   const [intervalId, setIntervalId] = useState(null);
-//   const [isSending, setIsSending] = useState(false); // To toggle the interval
-
-//   const sendPushNotification = async () => {
-//     if (!message) {
-//       alert('Please enter a message!');
-//       return;
-//     }
-
-//     try {
-//       const response = await fetch('http://localhost:5000/send-push', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({
-//           message: message,
-//           icon: "/qualys.png",
-//         }),
-//       });
-
-//       if (response.ok) {
-//         const data = await response.json();
-//         console.log('Push notification sent successfully:', data);
-//       } else {
-//         console.error('Failed to send push notification');
-//       }
-//     } catch (error) {
-//       console.error('Error:', error);
-//     }
-//   };
-
-//   const startSendingNotifications = () => {
-//     if (!message) {
-//       alert('Please enter a message before starting!');
-//       return;
-//     }
-
-//     if (isSending) {
-//       alert('Notifications are already being sent!');
-//       return;
-//     }
-
-//     setIsSending(true);
-
-//     // Start the interval
-//     const id = setInterval(() => {
-//       sendPushNotification();
-//     }, 5000); // Send notification every 5 seconds
-//     setIntervalId(id);
-//   };
-
-//   const stopSendingNotifications = () => {
-//     if (intervalId) {
-//       clearInterval(intervalId);
-//       setIntervalId(null);
-//       setIsSending(false);
-//       alert('Stopped sending notifications!');
-//     }
-//   };
-
-//   // Cleanup the interval on component unmount
-//   useEffect(() => {
-//     return () => {
-//       if (intervalId) clearInterval(intervalId);
-//     };
-//   }, [intervalId]);
-
-//   return (
-//     <div className="container mt-5">
-//       <h1 className="mb-4">Home Component</h1>
-
-//       <div className="mb-3">
-//         <label htmlFor="notificationMessage" className="form-label">
-//           Enter Notification Message
-//         </label>
-//         <input
-//           type="text"
-//           id="notificationMessage"
-//           className="form-control"
-//           value={message}
-//           onChange={(e) => setMessage(e.target.value)}
-//         />
-//       </div>
-
-//       <div className="d-flex gap-3">
-//         <button className="btn btn-success" onClick={startSendingNotifications}>
-//           Start Sending Notifications
-//         </button>
-//         <button className="btn btn-danger" onClick={stopSendingNotifications}>
-//           Stop Sending Notifications
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
