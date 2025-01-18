@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'; // Add this for custom styles
 
 export default function Home() {
   const [message, setMessage] = useState('');
   const [notificationStatus, setNotificationStatus] = useState(null);
+
+  const debounce = (func, delay) => {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => func(...args), delay);
+    };
+  };
 
   const sendPushNotification = async () => {
     if (!message) {
@@ -20,7 +28,7 @@ export default function Home() {
         },
         body: JSON.stringify({
           message: message,
-          icon: "/qualys.png"
+          icon: '/qualys.png',
         }),
       });
 
@@ -34,6 +42,23 @@ export default function Home() {
       setNotificationStatus('error');
     }
   };
+
+  const debouncedSendPushNotification = useCallback(
+    debounce(sendPushNotification, 1000), // Debounce with a 1-second delay
+    [message]
+  );
+
+  const hideAlert = () => {
+    setNotificationStatus(null);
+  };
+
+  // Automatically hide the alert after 3 seconds
+  React.useEffect(() => {
+    if (notificationStatus) {
+      const timer = setTimeout(hideAlert, 3000);
+      return () => clearTimeout(timer); // Cleanup the timeout if the component unmounts or the alert changes
+    }
+  }, [notificationStatus]);
 
   return (
     <div className="container mt-5">
@@ -63,7 +88,7 @@ export default function Home() {
               <div className="text-center">
                 <button
                   className="btn btn-primary w-100"
-                  onClick={sendPushNotification}
+                  onClick={debouncedSendPushNotification}
                   disabled={notificationStatus === 'loading'}
                 >
                   {notificationStatus === 'loading' ? (
