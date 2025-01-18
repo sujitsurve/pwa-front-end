@@ -109,7 +109,8 @@ export default function Home() {
                   role="alert"
                 >
                   {notificationStatus === 'success'
-                    ? 'Push Notification Sent Successfully!'
+                    ? 'Push Notification Sent Successfully!' :
+                    notificationStatus === 'success' ? 'Sending Push Notification'
                     : 'Error sending Push Notification'}
                 </div>
               )}
